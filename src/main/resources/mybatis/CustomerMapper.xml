@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="mybatis.CustomerMapper">
+<!-- 	<select id="getUser" resultMap="usermap">
+		select * from users
+	</select>
+	<insert id="insert">
+	    insert into users (id, name, funkyNumber, roundingMode) values (
+	    	#{id}, #{name}, #{funkyNumber}, #{roundingMode}
+	    )
+	</insert>
+ -->
+	 <select id="login" resultType="com.moneyhub.web.cus.Customer">
+		SELECT *
+		FROM CUSTOMER
+		WHERE CEMAIL like #{cemail} AND CPWD LIKE #{cpwd}
+
+	</select>
+	
+ 	<select id="existId" resultType="integer">
+		SELECT COUNT(*) 
+		FROM CUSTOMER
+		WHERE CEMAIL like #{cemail}
+	</select>
+	
+<!-- 	CNO, CEMAIL, CPWD, CNAME, CNTCD, CPHONE, CSTCD, SDATE, WDATE, UDATE 
+		cno, cemail, cpwd, cname, cntcd, cphone, cstcd, sdate, wdate, udate    
+		
+		sdate -> 자동으로 날짜 넣을려면 tpye date 로 변경하고 sysdate()하면 OK
+		-->
+
+	<insert id="join" parameterType="com.moneyhub.web.cus.Customer">
+	    INSERT INTO CUSTOMER ( CEMAIL, CPWD, CNAME, CNTCD, CPHONE, 
+	    						CSTCD, SDATE, WDATE, UDATE ) 
+	    VALUES (
+	    	#{cemail}, #{cpwd}, #{cname}, #{cntcd}, #{cphone}, 
+	    	#{cstcd}, #{sdate}, #{wdate}, #{udate}
+	    )
+	</insert>
+	
+ 	<!-- <insert id="GetKey" parameterType="Customer">
+		update customer set custKey like #{param2}
+		where cemail like #{param1}
+	</insert>
+	
+	<insert id="alterCustKey" parameterType="Customer">
+		update customer set custKey like 'Y'
+		where cemail like #{param1} and custKey like #{param2}
+	</insert> -->
+	
+	<delete id="withdrawal" parameterType="com.moneyhub.web.cus.Customer">
+		DELETE
+		FROM CUSTOMER
+		WHERE CEMAIL LIKE #{cemail}
+	</delete>
+
+	
+	<select id="pwdCheck" resultType="integer">
+		SELECT COUNT(*)
+		FROM CUSTOMER
+		WHERE CPWD LIKE #{cpwd}
+	</select>
+	
+</mapper>
